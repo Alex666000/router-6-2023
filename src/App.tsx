@@ -1,59 +1,70 @@
 import React from "react";
 import "./App.css";
-import {NavLink, Outlet, Route, Routes} from "react-router-dom";
+import {NavLink, Route, Routes, useParams} from "react-router-dom";
+
+export const Profile = () => { // типизировали как <Route path={'/profile/:id'} element={<Profile/>}/> id ки должны совпадать
+
+    // const params = useParams<'id'>()
+
+    const params = useParams<"x" | "y">() //  x,y с path={'/profile/:x/:y'}
+
+    // const params = useParams<'*'>() // достали параметр *
+
+    const some = params // достали параметр * с подсказкой webstorm
+
+    console.log(some) // {id: '1'}
+
+    return (
+        <div>profile</div>
+    );
+};
 
 function App() {
     return (
         <div className="App">
-            <NavLink to={"/"}>main</NavLink>---
-            <NavLink to={"/login"}>login</NavLink>---
-            <NavLink to={"/profile"}>profile</NavLink>---
-            <NavLink to={'/profile/settings'}>settings</NavLink>---
+            {/*чтобы могли переходить на эти страницы*/}
+            <NavLink to={"/"}> main</NavLink>
+            <NavLink to={"/login"}> login</NavLink>
+            <NavLink to={"/profile"}> profile</NavLink>
+            <NavLink to={"/profile/1"}> profile/1</NavLink>
 
             <Routes>
-                <Route path={'*'} element={<div><div>404</div> </div>}/>
-                <Route path={'/'} element={<div>main</div>}/>
-                <Route path={'/login'} element={<div>login</div>}/>
-                <Route path={"/profile"} element={
-                    <div>
-                        profile
-                    <Outlet/> {/*settings - тут отобразится из строки 23*/}
-
-                    </div>}>
-                    <Route path={"*"} element={<div>profile page not found</div>}/>
-                    <Route index element={<div>show id</div>}/>
-                    <Route path={":id/:XXX"} element={<div>id</div>}/>
-                    <Route path={"settings"} element={<div>settings</div>}/>
-
-                </Route>
+                <Route path={"/*"} element={<div>404</div>}/>
+                <Route path={"/"} element={<div>main</div>}/>
+                <Route path={"/login"} element={<div>login</div>}/>
+                {/*<Route path={'/profile/:id'} element={<Profile/>}/>*/}
+                {/*<Route path={'/profile/:x/:y'} element={<Profile/>}/>*/}
+                {/*<Route path={'/profile/:x'} element={<Profile/>}/>*/}
+                {/*<Route path={'/profile/*'} element={<Profile/>}/>  /!*звездочка - необязательный параметр
+                 - послу profile может быть что угодно - любой параметр - выше мы можем достать *    *!/*/}
+                {/* звездочку можно писать только в конце*/}
             </Routes>
         </div>
     );
 }
 
 export default App;
-// * - все что угодно после слеша
 
-// 1 - вложенность
+/*
+1- const params = useParams() - достаем параметры и сохраняем в переменную const some = params
+2 - id всегда строка если нужна не строка то "+" можно перевести в число
+3- звездочка - необязательный параметр - пищется только в конце как в 5 версии в середине url теперь нельзя писать
+4 - * - это все что идет после "слеша"
+5 - <Route path={'/profile/:x'} element={<Profile/>}/> : КАК "КЛЮЧ",
+    <NavLink to={'/profile/1'}> profile/1</NavLink> как значение: {x: '1'} - увидим в консоли
+*
+id всегда строка ставим + чтобы к числу....
 
-/*<Route path={"/profile/!*"} element={
-    <div>
-        profile
-                    // сюда встанет settings
-        <Routes>
-            <Route path={"/settings"} element={<div>settings</div>}/>
-        </Routes>
-    </div>}
-/>*/
 
-// 2 - вложенность - вставляем как чилдрен
 
-/*<Route path={"/profile/!*"} element={
-    <div>
-        profile
-        <Outlet/> {/!*settings - тут отобразится из строки 23*!/}
 
-    </div>}>
-    <Route path={"settings"} element={<div>settings</div>}/>
-</Route>*/
 
+
+
+
+
+
+
+
+
+*/
