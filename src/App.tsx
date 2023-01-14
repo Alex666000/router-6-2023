@@ -14,13 +14,17 @@ function App() {
                 <Route path={'*'} element={<div><div>404</div> </div>}/>
                 <Route path={'/'} element={<div>main</div>}/>
                 <Route path={'/login'} element={<div>login</div>}/>
-                <Route path={"/profile/*"} element={
+                <Route path={"/profile"} element={
                     <div>
                         profile
                     <Outlet/> {/*settings - тут отобразится из строки 23*/}
 
                     </div>}>
+                    <Route path={"*"} element={<div>profile page not found</div>}/>
+                    <Route index element={<div>show id</div>}/>
+                    <Route path={":id/:XXX"} element={<div>id</div>}/>
                     <Route path={"settings"} element={<div>settings</div>}/>
+
                 </Route>
             </Routes>
         </div>
@@ -35,6 +39,7 @@ export default App;
 /*<Route path={"/profile/!*"} element={
     <div>
         profile
+                    // сюда встанет settings
         <Routes>
             <Route path={"/settings"} element={<div>settings</div>}/>
         </Routes>
